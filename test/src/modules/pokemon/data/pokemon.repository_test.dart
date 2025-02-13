@@ -48,4 +48,35 @@ void main() {
       result.fold((l) => expect(l, isA<Exception>()), (r) => fail('error'));
     });
   });
+
+  group('Should test get pokemon', () {
+    test('Should verify if datasource were called', () async {
+      when(() => datasource.getPokemons(offset: 0, limit: 20)).thenAnswer(
+        (_) async => [],
+      );
+      await sut.getPokemons(offset: 0, limit: 20);
+      verify(
+        () => datasource.getPokemons(offset: 0, limit: 20),
+      ).called(1);
+    });
+
+    test(
+        'Should verify if datasource were called and that returns detail of pokemons',
+        () async {
+      when(() => datasource.getPokemon('1')).thenAnswer(
+        (_) async => pokemonModel,
+      );
+      final result = await sut.getPokemon('1');
+      result.fold((l) => fail('error'), (r) => expect(r, pokemonModel));
+    });
+
+    test('Should verify if datasource were called and that returns error',
+        () async {
+      when(() => datasource.getPokemon('1')).thenAnswer(
+        (_) async => throw Exception(),
+      );
+      final result = await sut.getPokemon('1');
+      result.fold((l) => expect(l, isA<Exception>()), (r) => fail('error'));
+    });
+  });
 }

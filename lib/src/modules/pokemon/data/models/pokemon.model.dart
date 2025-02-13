@@ -9,12 +9,16 @@ class PokemonModel extends PokemonEntity {
       name: json['name'],
       height: json['height'],
       weight: json['weight'],
-      stats: json['stats'] == null ? null : (json['stats'] as List).map((element) => PokemonStatsModel(element)).toList(),
+      stats: json['stats'] == null
+          ? null
+          : (json['stats'] as List)
+              .map((element) => PokemonStatsModel(element))
+              .toList(),
       types: json['types'] == null
           ? null
           : (json['types'] as List)
-          .map((element) => PokemonTypesModel(element))
-          .toList(),
+              .map((element) => PokemonTypesModel(element))
+              .toList(),
     );
   }
 
@@ -24,9 +28,9 @@ class PokemonModel extends PokemonEntity {
       };
 
   static PokemonModel fromEntity(PokemonEntity entity) => PokemonModel._(
-    id: entity.id,
-    name: entity.name,
-  );
+        id: entity.id,
+        name: entity.name,
+      );
 
   PokemonModel._({
     required super.id,
@@ -36,4 +40,14 @@ class PokemonModel extends PokemonEntity {
     super.stats,
     super.types,
   });
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is PokemonModel && other.name == name && other.id == id;
+  }
+
+  @override
+  int get hashCode => name.hashCode ^ id.hashCode;
 }
