@@ -1,0 +1,1 @@
+@rpath/pokemon_app.debug.dylib
