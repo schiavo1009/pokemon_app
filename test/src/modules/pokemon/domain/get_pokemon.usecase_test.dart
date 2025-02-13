@@ -33,7 +33,7 @@ void main() {
     });
 
     test(
-        'Should verify if repository were called and that returns List of pokemons',
+        'Should verify if repository were called and that returns detail of pokemons',
         () async {
       when(() => repository.getPokemon('1')).thenAnswer(
         (_) async => Right(pokemonEntity),
